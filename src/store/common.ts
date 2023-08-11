@@ -4,10 +4,7 @@ import { IUserSetting } from "../interface";
 export class CommonStore {
     config: IUserSetting = {
         apiKey: "your-key",
-        baseURL: "https://xxx.openai.azure.com",
-        deployName: "xxx",
-        serviceProvider: "azure",
-        model: "gpt-3.5-turbo-0301",
+        serviceProvider: "openai",
     };
     constructor() {
         makeAutoObservable(this);
@@ -26,7 +23,7 @@ export class CommonStore {
                 this.config = JSON.parse(configJSON);
             } catch (error) {}
         } else {
-            console.log('Not found default settings')
+            console.log("Not found default settings");
         }
     }
 }

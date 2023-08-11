@@ -21,16 +21,16 @@ const appRouter = createBrowserRouter([
     },
     {
         path: "*",
-        element: <NotFound />
-    }
+        element: <NotFound />,
+    },
 ]);
 
 export default function (props: { children?: React.ReactNode }) {
     const { commonStore } = useGlobalStore();
     useEffect(() => {
         commonStore.loadConfig();
-    }, [])
-    return <RouterProvider router={appRouter} />
+    }, []);
+    return <RouterProvider router={appRouter} />;
 }
 
 // export default appRouter;

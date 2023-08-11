@@ -34,30 +34,13 @@ const Settings: React.FC = (props) => {
                     }}
                 />
                 <TextField
-                    value={`${config.apiKey}`}
+                    value={!!config.apiKey && config.apiKey !== "your-key" ? config.apiKey : undefined}
                     label="API Key"
+                    placeholder={`${config.apiKey}`}
                     onChange={(v) => {
                         commonStore.updateConfig("apiKey", v);
                     }}
                 />
-                {config.serviceProvider === "azure" && (
-                    <TextField
-                        value={`${config.baseURL}`}
-                        label="Base URL"
-                        onChange={(v) => {
-                            commonStore.updateConfig("baseURL", v);
-                        }}
-                    />
-                )}
-                {config.serviceProvider === "azure" && (
-                    <TextField
-                        value={`${config.deployName}`}
-                        label="Deploy Name"
-                        onChange={(v) => {
-                            commonStore.updateConfig("deployName", v);
-                        }}
-                    />
-                )}
 
                 <div className="mt-2">
                     <button

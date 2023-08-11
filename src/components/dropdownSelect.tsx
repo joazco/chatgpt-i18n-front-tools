@@ -11,7 +11,7 @@ export interface IDropdownSelectOption {
     value: string;
     disabled?: boolean;
 }
-interface IDropdownSelectProps {
+export interface IDropdownSelectProps {
     options?: IDropdownSelectOption[];
     selectedKey: string;
     onSelect?: (value: string) => void;
@@ -25,7 +25,8 @@ const DropdownSelect: React.FC<IDropdownSelectProps> = (props) => {
     const selectedItem = options.find((op) => op.value === selectedKey);
 
     let rootClassName = "relative";
-    let btnComputedClassName = "relative cursor-default text-xs rounded-lg bg-zinc-900 px-2.5 py-2 pr-10 text-left border border-gray-200 border-gray-700 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 truncate"
+    let btnComputedClassName =
+        "relative cursor-default text-xs rounded-lg bg-zinc-900 px-2.5 py-2 pr-10 text-left border border-gray-200 border-gray-700 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 truncate";
     if (buttonClassName) {
         btnComputedClassName = btnComputedClassName + " " + buttonClassName;
     }
@@ -42,17 +43,12 @@ const DropdownSelect: React.FC<IDropdownSelectProps> = (props) => {
             <div className={rootClassName}>
                 <Listbox.Button className={btnComputedClassName}>
                     <span className="block truncate text-white">{selectedItem?.label || ""}</span>
-                    { selectedItem === undefined && <span className="block truncate text-gray-400">{placeholder}</span>}
+                    {selectedItem === undefined && <span className="block truncate text-gray-400">{placeholder}</span>}
                     <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                         <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                     </span>
                 </Listbox.Button>
-                <Transition
-                    as={Fragment}
-                    leave="transition ease-in duration-100"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
-                >
+                <Transition as={Fragment} leave="transition ease-in duration-100" leaveFrom="opacity-100" leaveTo="opacity-0">
                     <Listbox.Options className="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md bg-zinc-900  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                         {options.map((op, opIndex) => (
                             <Listbox.Option
@@ -66,9 +62,7 @@ const DropdownSelect: React.FC<IDropdownSelectProps> = (props) => {
                             >
                                 {({ selected }) => (
                                     <>
-                                        <span className={`block truncate ${selected ? "font-medium" : "font-normal"}`}>
-                                            {op.label}
-                                        </span>
+                                        <span className={`block truncate ${selected ? "font-medium" : "font-normal"}`}>{op.label}</span>
                                         {selected && (
                                             <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-indigo-400">
                                                 <CheckIcon className="h-5 w-5" aria-hidden="true" />

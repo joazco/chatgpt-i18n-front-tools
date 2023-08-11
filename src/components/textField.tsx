@@ -3,7 +3,7 @@ import React, { FC } from "react";
 interface ITextFieldProps {
     label: string;
     placeholder?: string;
-    value: string;
+    value?: string;
     onChange: (value: string) => void;
 }
 const TextField: FC<ITextFieldProps> = (props) => {
@@ -11,9 +11,7 @@ const TextField: FC<ITextFieldProps> = (props) => {
     return (
         <div>
             <div className="flex justify-between">
-                <label className="block text-sm font-medium leading-6 text-gray-500">
-                    {label}
-                </label>
+                <label className="block text-sm font-medium leading-6 text-gray-500">{label}</label>
             </div>
             <input
                 type="text"
