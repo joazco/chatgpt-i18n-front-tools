@@ -12,7 +12,7 @@ interface IReqBody {
     config: IUserSetting;
 }
 
-export function translateService(req: IReqBody) {
+export default function translateService(req: IReqBody) {
     const { config, content, baseLang, targetLang, model, extraPrompt, uniqKeyNameToTranslate, keyNameToTranslate } = req;
     const messages: IMessage[] = [
         {

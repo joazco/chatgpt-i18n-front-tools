@@ -16,7 +16,7 @@ const DropdownModel: React.FC<DropdownModelProps> = (props) => {
         });
         const openai = new OpenAIApi(configuration);
         openai.listModels().then((response) => {
-            console.log(response.data);
+            console.log("Models :", response.data);
             setOptions(response.data.data.map((d) => ({ label: d.id, value: d.id })));
         });
     }, [commonStore.config.apiKey]);

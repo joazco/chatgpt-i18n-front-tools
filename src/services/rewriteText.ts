@@ -11,7 +11,7 @@ interface IReqBody {
     config: IUserSetting;
 }
 
-export function rewriteTextService(req: IReqBody) {
+export default function rewriteTextService(req: IReqBody) {
     const { config, content, baseLang, model, extraPrompt, uniqKeyNameToTranslate, keyNameToTranslate } = req;
     const messages: IMessage[] = [
         {
@@ -49,7 +49,6 @@ export function rewriteTextService(req: IReqBody) {
                 return JSON.parse(completion.data.choices[0].message?.content || "[]");
             })
             .then((completionJSON) => {
-                console.log("🚀 ~ file: spellingCorrection.ts:52 ~ .then ~ completionJSON:", completionJSON);
                 return matchJSON(content, completionJSON, uniqKeyNameToTranslate, keyNameToTranslate);
             })
             .then((completion) => {

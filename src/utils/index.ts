@@ -1,4 +1,3 @@
-import { AxiosResponse } from "axios";
 import { IMessage, IUserSetting } from "../interface";
 import { Configuration, OpenAIApi } from "openai";
 
@@ -64,23 +63,10 @@ export function matchJSON(from: any[], to: any[], uniqKeyNameToTranslate: string
 
     // Update tableau1 based on the dictionary
     from.forEach((item) => {
-        console.log(
-            item,
-            uniqKeyNameToTranslate,
-            item[uniqKeyNameToTranslate],
-            item[keyNameToTranslate],
-            updateDictionary[item[uniqKeyNameToTranslate]],
-            updateDictionary
-        );
         if (updateDictionary[item[uniqKeyNameToTranslate]]) {
             item[keyNameToTranslate] = updateDictionary[item[uniqKeyNameToTranslate]];
-            console.log(
-                "🚀 ~ file: index.ts:71 ~ from.forEach ~ updateDictionary[item[uniqKeyNameToTranslate]]:",
-                updateDictionary[item[uniqKeyNameToTranslate]]
-            );
         }
     });
-    console.log("🚀 ~ file: index.ts:75 ~ from.forEach ~ from:", from);
 
     return from;
 }

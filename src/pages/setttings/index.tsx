@@ -1,10 +1,8 @@
 import React from "react";
-import Header from "../../components/header";
-import TextField from "../../components/textField";
 import { observer } from "mobx-react-lite";
 import { useGlobalStore } from "../../store";
-import DropdownSelect from "../../components/dropdownSelect";
 import { useNotification } from "../../notify";
+import { DropdownSelect, Header, TextField } from "../../components";
 
 const Settings: React.FC = (props) => {
     // const {  } = props;

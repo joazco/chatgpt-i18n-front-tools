@@ -1,12 +1,9 @@
 import { useEffect } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import LangingPage from "./pages/landing";
-import Translate from "./pages/translate";
-import Settings from "./pages/setttings";
-import NotFound from "./pages/404";
+
+import { LangingPage, NotFound, Settings, TextServicePage } from "./pages";
 import { useGlobalStore } from "./store";
-import SpellingCorrection from "./pages/spellingCorrection";
-import RewriteText from "./pages/rewriteText";
+import FormProvider from "./store/form";
 
 const appRouter = createBrowserRouter([
     {
@@ -15,15 +12,15 @@ const appRouter = createBrowserRouter([
     },
     {
         path: "/translate",
-        element: <Translate />,
+        element: <TextServicePage service="translation" />,
     },
     {
         path: "/spelling-correction",
-        element: <SpellingCorrection />,
+        element: <TextServicePage service="spelling-correction" />,
     },
     {
         path: "/rewrite-text",
-        element: <RewriteText />,
+        element: <TextServicePage service="rewrite-text" />,
     },
     {
         path: "/settings",
@@ -40,7 +37,11 @@ export default function (props: { children?: React.ReactNode }) {
     useEffect(() => {
         commonStore.loadConfig();
     }, []);
-    return <RouterProvider router={appRouter} />;
+    return (
+        <FormProvider>
+            <RouterProvider router={appRouter} />
+        </FormProvider>
+    );
 }
 
 // export default appRouter;

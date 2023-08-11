@@ -4,7 +4,6 @@ import { useGlobalStore } from "../store";
 
 const Banner: React.FC = (props) => {
     const { commonStore } = useGlobalStore();
-    console.log("🚀 ~ file: index.tsx:8 ~ commonStore:", commonStore);
     return (
         <div className="mx-auto max-w-2xl text-center">
             <h1 className="mt-48 text-4xl font-bold tracking-tight text-gray-50 sm:text-6xl">
