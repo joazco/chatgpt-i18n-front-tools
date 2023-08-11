@@ -58,6 +58,7 @@ const Translate: React.FC = (props) => {
     const { commonStore } = useGlobalStore();
 
     const requestTranslation = useCallback(async () => {
+        setTransContent("");
         setLoading(true);
         try {
             const compressedContent = compress(originalContent, fileType);

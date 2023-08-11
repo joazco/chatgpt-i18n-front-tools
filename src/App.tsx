@@ -6,6 +6,7 @@ import Settings from "./pages/setttings";
 import NotFound from "./pages/404";
 import { useGlobalStore } from "./store";
 import SpellingCorrection from "./pages/spellingCorrection";
+import RewriteText from "./pages/rewriteText";
 
 const appRouter = createBrowserRouter([
     {
@@ -19,6 +20,10 @@ const appRouter = createBrowserRouter([
     {
         path: "/spelling-correction",
         element: <SpellingCorrection />,
+    },
+    {
+        path: "/rewrite-text",
+        element: <RewriteText />,
     },
     {
         path: "/settings",

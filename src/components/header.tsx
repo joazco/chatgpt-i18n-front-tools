@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 const navigation = [
     { name: "Translate", href: "/translate" },
     { name: "Spelling Correction", href: "/spelling-correction" },
+    { name: "Rewrite Text", href: "/rewrite-text" },
     { name: "Github", href: "https://github.com/joazco/chatgpt-i18n-front-tools" },
     { name: "Settings", href: "/settings" },
 ];

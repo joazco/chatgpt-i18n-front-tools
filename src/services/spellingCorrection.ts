@@ -16,13 +16,14 @@ export function spellingCorrectionService(req: IReqBody) {
     const messages: IMessage[] = [
         {
             role: "system",
-            content: `You are a helpful assistant that correct spelling a i18n locale array content. Only correct spelling a i18n locale json content from ${baseLang}. It's a key:value structure, don't correct spelling the key.`,
+            content: `You are a helpful assistant that correct spelling a i18n locale array content. Only correct spelling a i18n locale json content from ${baseLang}.\n
+            It's a key:value structure, don't modify the key.\n`,
         },
     ];
     if (typeof extraPrompt === "string" && extraPrompt.length > 0) {
         messages.push({
             role: "user",
-            content: `Other tips for correct spelling: ${extraPrompt}`,
+            content: `Other tips for correct spelling: ${extraPrompt}\n`,
         });
     }
 

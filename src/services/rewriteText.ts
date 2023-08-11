@@ -4,7 +4,6 @@ import { createChatCompletion, matchJSON } from "../utils";
 interface IReqBody {
     content: any[];
     baseLang: string;
-    targetLang: string;
     model: string;
     uniqKeyNameToTranslate: string;
     keyNameToTranslate: string;
@@ -12,19 +11,18 @@ interface IReqBody {
     config: IUserSetting;
 }
 
-export function translateService(req: IReqBody) {
-    const { config, content, baseLang, targetLang, model, extraPrompt, uniqKeyNameToTranslate, keyNameToTranslate } = req;
+export function rewriteTextService(req: IReqBody) {
+    const { config, content, baseLang, model, extraPrompt, uniqKeyNameToTranslate, keyNameToTranslate } = req;
     const messages: IMessage[] = [
         {
             role: "system",
-            content: `You are a helpful assistant that translates a i18n locale array content. Only translate a i18n locale json content from ${baseLang} to ${targetLang}..\n
-            It's a key:value structure, don't modify the key.\n`,
+            content: `You are a helpful assistant to rephrase to make the text flow better a json i18n locale array content. Only rephrase to make the text flow better a i18n locale json content from ${baseLang}.`,
         },
     ];
     if (typeof extraPrompt === "string" && extraPrompt.length > 0) {
         messages.push({
             role: "user",
-            content: `Other tips for translation: ${extraPrompt}\n`,
+            content: `Other tips to make the text flow better: ${extraPrompt}\n`,
         });
     }
 
@@ -51,6 +49,7 @@ export function translateService(req: IReqBody) {
                 return JSON.parse(completion.data.choices[0].message?.content || "[]");
             })
             .then((completionJSON) => {
+                console.log("🚀 ~ file: spellingCorrection.ts:52 ~ .then ~ completionJSON:", completionJSON);
                 return matchJSON(content, completionJSON, uniqKeyNameToTranslate, keyNameToTranslate);
             })
             .then((completion) => {

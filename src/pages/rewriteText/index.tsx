@@ -16,7 +16,7 @@ import Spinner from "../../components/spinner";
 import { useNotification } from "../../notify";
 import TextField from "../../components/textField";
 import { FileType } from "../translate/types";
-import { spellingCorrectionService } from "../../services/spellingCorrection";
+import { rewriteTextService } from "../../services/rewriteText";
 import { useGlobalStore } from "../../store";
 import { toJS } from "mobx";
 import { Link } from "react-router-dom";
@@ -43,7 +43,7 @@ self.MonacoEnvironment = {
 loader.config({ monaco });
 loader.init();
 
-const SpellingCorrection: React.FC = (props) => {
+const RewriteText: React.FC = (props) => {
     const [originalContent, setOriginalContent] = useState("");
     const [lang, setLang] = useState<string>(intlLanguages[2].value);
     const [model, setModel] = useState<string>("gpt-3.5-turbo");
@@ -62,7 +62,7 @@ const SpellingCorrection: React.FC = (props) => {
         try {
             const compressedContent = compress(originalContent, fileType);
             // const data = await translate(compressedContent, lang, fileType, extraPrompt);
-            const data = await spellingCorrectionService({
+            const data = await rewriteTextService({
                 content: compressedContent,
                 baseLang: lang,
                 model,
@@ -121,7 +121,7 @@ const SpellingCorrection: React.FC = (props) => {
                         onClick={requestTranslation}
                     >
                         {loading && <Spinner />}
-                        Spelling Correction
+                        Rewrite Text
                     </button>
                 </div>
                 <p className="my-2">Model</p>
@@ -178,7 +178,7 @@ const SpellingCorrection: React.FC = (props) => {
                     </div>
                     <div className="shadow-lg border border-gray-700 rounded m-2">
                         <div className="p-2">
-                            Corrected locale
+                            Rewrited Text locale
                             <DocumentDuplicateIcon
                                 onClick={() => {
                                     copy2Clipboard(transContent);
@@ -210,4 +210,4 @@ const SpellingCorrection: React.FC = (props) => {
     );
 };
 
-export default SpellingCorrection;
+export default RewriteText;
