@@ -20,7 +20,7 @@ const Banner: React.FC = (props) => {
                         <Link to="/translate">Get started</Link>
                     )}
                 </span>
-                <a href="https://github.com/ObservedObserver/chatgpt-i18n" className="text-sm font-semibold leading-6 text-gray-50">
+                <a href="https://github.com/joazco/chatgpt-i18n-front-tools" className="text-sm font-semibold leading-6 text-gray-50">
                     Learn more <span aria-hidden="true">→</span>
                 </a>
             </div>

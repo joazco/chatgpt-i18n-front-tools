@@ -5,7 +5,8 @@ import { Link } from "react-router-dom";
 
 const navigation = [
     { name: "Translate", href: "/translate" },
-    { name: "Github", href: "https://github.com/ObservedObserver/chatgpt-i18n" },
+    { name: "Spelling Correction", href: "/spelling-correction" },
+    { name: "Github", href: "https://github.com/joazco/chatgpt-i18n-front-tools" },
     { name: "Settings", href: "/settings" },
 ];
 
@@ -15,7 +16,9 @@ const Header: React.FC = (props) => {
         <header className="relative inset-x-0 top-0 z-50">
             <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
                 <div className="flex lg:flex-1">
-                    <Link className="-m-1.5 p-1.5" to="/">i18nGPT</Link>
+                    <Link className="-m-1.5 p-1.5" to="/">
+                        i18nGPT
+                    </Link>
                 </div>
                 <div className="flex lg:hidden">
                     <button
@@ -29,7 +32,9 @@ const Header: React.FC = (props) => {
                 </div>
                 <div className="hidden lg:flex lg:gap-x-12">
                     {navigation.map((item) => (
-                        <Link key={item.name} to={item.href} className="text-sm font-semibold leading-6 text-white">{item.name}</Link>
+                        <Link key={item.name} to={item.href} className="text-sm font-semibold leading-6 text-white">
+                            {item.name}
+                        </Link>
                     ))}
                 </div>
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
@@ -42,8 +47,10 @@ const Header: React.FC = (props) => {
                 <div className="fixed inset-0 z-50" />
                 <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-gray-900 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-white/10">
                     <div className="flex items-center justify-between">
-                        <Link className="-m-1.5 p-1.5" to="/">i18n.ai</Link>
-                        
+                        <Link className="-m-1.5 p-1.5" to="/">
+                            i18n.ai
+                        </Link>
+
                         <button type="button" className="-m-2.5 rounded-md p-2.5 text-gray-400" onClick={() => setMobileMenuOpen(false)}>
                             <span className="sr-only">Close menu</span>
                             <XMarkIcon className="h-6 w-6" aria-hidden="true" />
