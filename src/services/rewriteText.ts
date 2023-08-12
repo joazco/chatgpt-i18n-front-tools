@@ -37,7 +37,8 @@ export default function rewriteTextService(req: IReqBody) {
                 model,
                 messages,
             },
-            config
+            config,
+            2
         )
             .then((completion) => {
                 if (completion.data.choices[0].finish_reason !== "stop") {

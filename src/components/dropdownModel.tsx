@@ -21,7 +21,7 @@ const DropdownModel: React.FC<DropdownModelProps> = (props) => {
         });
     }, [commonStore.config.apiKey]);
 
-    return <DropdownSelect options={options} {...props} />;
+    return <DropdownSelect options={options} {...props} className="w-56" />;
 };
 
 export default DropdownModel;

@@ -39,7 +39,8 @@ export default function translateService(req: IReqBody) {
                 model,
                 messages,
             },
-            config
+            config,
+            0
         )
             .then((completion) => {
                 if (completion.data.choices[0].finish_reason !== "stop") {

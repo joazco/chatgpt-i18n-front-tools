@@ -106,14 +106,10 @@ const TextServicePage: React.FC<{ service: "translation" | "spelling-correction"
 
     return (
         <div className="text-white">
-            <form
-                onSubmit={() => {
-                    console.log("i'm here!!");
-                }}
-            >
-                <Header />
-                <Background />
-                <div className="container mx-auto p-4">
+            <Header />
+            <Background />
+            <div className="w-4/5 mx-auto p-4">
+                <div className="container p-4">
                     {commonStore.config.apiKey === "your-key" && (
                         <p className="my-2">
                             GPT keys is not provided by default now, set your own keys at{" "}
@@ -159,15 +155,7 @@ const TextServicePage: React.FC<{ service: "translation" | "spelling-correction"
                             {finalBtnText}
                         </button>
                     </div>
-                    <p className="my-2">Model</p>
-                    <div className="dark flex items-center">
-                        <DropdownModel
-                            className="inline-block"
-                            buttonClassName="w-full"
-                            selectedKey={model}
-                            onSelect={(value) => dispatch({ type: "setModel", value })}
-                        />
-                    </div>
+
                     <div className="mt-2 flex items-center">
                         <TextField
                             label="Uniq Key to translate"
@@ -183,6 +171,15 @@ const TextServicePage: React.FC<{ service: "translation" | "spelling-correction"
                             onChange={(value) => dispatch({ type: "setTransKeyName", value })}
                         />
                     </div>
+                    <p className="my-2 text-gray-400">Model</p>
+                    <div className="dark flex items-center">
+                        <DropdownModel
+                            className="inline-block"
+                            buttonClassName="w-full"
+                            selectedKey={model}
+                            onSelect={(value) => dispatch({ type: "setModel", value })}
+                        />
+                    </div>
                     <div className="mt-2">
                         <TextField
                             label="Customized Prompt (Optional)"
@@ -191,49 +188,48 @@ const TextServicePage: React.FC<{ service: "translation" | "spelling-correction"
                             onChange={(value) => dispatch({ type: "setExtraPrompt", value })}
                         />
                     </div>
-
-                    <div className="grid grid-cols-2 mt-6">
-                        <div className="shadow-lg border border-gray-700 rounded m-2">
-                            <div className="p-2">Original locale</div>
-                            <MonacoEditor
-                                value={originalContent}
-                                onChange={(value) => dispatch({ type: "setOriginalContent", value })}
-                                height="600px"
-                                language={fileType}
-                                theme="vs-dark"
+                </div>
+                <div className="grid grid-cols-2 mt-6">
+                    <div className="shadow-lg border border-gray-700 rounded m-2">
+                        <div className="p-2">Original locale</div>
+                        <MonacoEditor
+                            value={originalContent}
+                            onChange={(value) => dispatch({ type: "setOriginalContent", value })}
+                            height="600px"
+                            language={fileType}
+                            theme="vs-dark"
+                        />
+                    </div>
+                    <div className="shadow-lg border border-gray-700 rounded m-2">
+                        <div className="p-2">
+                            Target locale
+                            <DocumentDuplicateIcon
+                                onClick={() => {
+                                    copy2Clipboard(targetContent);
+                                    notify(
+                                        {
+                                            type: "success",
+                                            title: "copied!",
+                                            message: "copy to clipboard",
+                                        },
+                                        1000
+                                    );
+                                }}
+                                className="float-right w-5 text-white cursor-pointer hover:scale-110"
                             />
                         </div>
-                        <div className="shadow-lg border border-gray-700 rounded m-2">
-                            <div className="p-2">
-                                Target locale
-                                <DocumentDuplicateIcon
-                                    onClick={() => {
-                                        copy2Clipboard(targetContent);
-                                        notify(
-                                            {
-                                                type: "success",
-                                                title: "copied!",
-                                                message: "copy to clipboard",
-                                            },
-                                            1000
-                                        );
-                                    }}
-                                    className="float-right w-5 text-white cursor-pointer hover:scale-110"
-                                />
-                            </div>
-                            <MonacoEditor
-                                // onMount={(editor, m) => {
-                                //     resultEditorRef.current = editor;
-                                // }}
-                                value={targetContent}
-                                height="600px"
-                                language={fileType}
-                                theme="vs-dark"
-                            />
-                        </div>
+                        <MonacoEditor
+                            // onMount={(editor, m) => {
+                            //     resultEditorRef.current = editor;
+                            // }}
+                            value={targetContent}
+                            height="600px"
+                            language={fileType}
+                            theme="vs-dark"
+                        />
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
     );
 };

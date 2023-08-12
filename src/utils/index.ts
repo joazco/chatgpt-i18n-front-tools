@@ -41,13 +41,13 @@ export interface ICreateChatCompletionResponse {
     choices: { message: { role: string; content: string } }[];
 }
 
-export async function createChatCompletion(props: ICreateChatCompletionProps, config: IUserSetting) {
+export async function createChatCompletion(props: ICreateChatCompletionProps, config: IUserSetting, temperature: number = 1) {
     const configuration = new Configuration({
         apiKey: config.apiKey as string,
     });
     const openai = new OpenAIApi(configuration);
     return openai.createChatCompletion({
-        temperature: 0,
+        temperature,
         model: props.model,
         messages: props.messages,
     });
