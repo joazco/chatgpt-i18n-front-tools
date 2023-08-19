@@ -1,20 +1,26 @@
 import { FileType } from "./types";
 import yaml from "js-yaml";
 
-export function compress(content: string, fileType: FileType): any[] {
-    try {
-        return fileType === "json" ? JSON.parse(content) : yaml.load(content);
-    } catch (error) {
-        throw new Error(`${fileType} is not valid`);
+export function compress(content: string, fileType: FileType): any {
+    switch (fileType) {
+        case "json":
+            return JSON.parse(content);
+        case "yaml":
+            return yaml.load(content) as any;
+        case "plaintext":
+            return { key: content };
     }
 }
 
 export function prettierJson(content: string, fileType: FileType): string {
-    if (typeof content !== "string") return JSON.stringify(content, null, 2);
-    try {
-        return fileType === "json" ? JSON.stringify(JSON.parse(content), null, 2) : (yaml.dump(yaml.load(content)) as string);
-    } catch (error) {
-        throw new Error("json is not valid");
+    if (typeof content !== "string") return JSON.stringify(content);
+    switch (fileType) {
+        case "json":
+            return content;
+        case "yaml":
+            return yaml.dump(yaml.load(content)) as string;
+        case "plaintext":
+            return JSON.parse(content).key;
     }
 }
 

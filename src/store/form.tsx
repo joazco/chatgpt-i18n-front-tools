@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useMemo, useReducer } from "react";
-import { FileType } from "../pages/translate/types";
+import { FileType } from "../pages/textServicePage/types";
 
 export type FormReducerState = {
     originalContent: string;
@@ -7,6 +7,7 @@ export type FormReducerState = {
     langFrom: string;
     langTo: string;
     model: string;
+    isClassicI18nValue: boolean;
     uniqKeyName: string;
     transKeyName: string;
     fileType: FileType;
@@ -20,6 +21,7 @@ export type FormReducerAction = {
         | "setLangFrom"
         | "setLangTo"
         | "setModel"
+        | "setIsClassicI18nValue"
         | "setUniqKeyName"
         | "setTransKeyName"
         | "setFileType"
@@ -36,6 +38,7 @@ export const formReducerState: FormReducerState = {
     langFrom: "English",
     langTo: "French",
     model: "gpt-3.5-turbo",
+    isClassicI18nValue: true,
     uniqKeyName: "",
     transKeyName: "",
     fileType: "json",
@@ -54,6 +57,8 @@ const formReducer = (state: FormReducerState, action: FormReducerAction): FormRe
             return { ...state, langTo: action.value };
         case "setModel":
             return { ...state, model: action.value };
+        case "setIsClassicI18nValue":
+            return { ...state, isClassicI18nValue: action.value };
         case "setUniqKeyName":
             return { ...state, uniqKeyName: action.value };
         case "setTransKeyName":

@@ -2,8 +2,8 @@ import { IDropdownSelectOption } from "../../components/dropdownSelect";
 
 export const intlLanguages: IDropdownSelectOption[] = [
     { value: "English", label: "English" },
-    { value: "Spanish", label: "Español" },
     { value: "French", label: "Français" },
+    { value: "Spanish", label: "Español" },
     { value: "German", label: "Deutsch" },
     { value: "Italian", label: "Italiano" },
     { value: "Japanese", label: "日本語" },
@@ -32,9 +32,8 @@ export const intlLanguages: IDropdownSelectOption[] = [
     { value: "Persian", label: "Farsi" },
 ];
 
-
-
 export const fileTypes: IDropdownSelectOption[] = [
     { value: "json", label: "json" },
     { value: "yaml", label: "yaml" },
+    { value: "plaintext", label: "text" },
 ];

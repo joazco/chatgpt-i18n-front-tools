@@ -14,23 +14,6 @@ const Settings: React.FC = (props) => {
         <div>
             <Header />
             <div className="text-white container mx-auto p-4">
-                <p className="my-2 text-gray-200">You config will only be used by yourself and stored in your localstorage.</p>
-                <DropdownSelect
-                    options={[
-                        {
-                            value: "azure",
-                            label: "azure",
-                        },
-                        {
-                            value: "openai",
-                            label: "openai",
-                        },
-                    ]}
-                    selectedKey={config.serviceProvider}
-                    onSelect={(v) => {
-                        commonStore.updateConfig("serviceProvider", v);
-                    }}
-                />
                 <TextField
                     value={!!config.apiKey && config.apiKey !== "your-key" ? config.apiKey : undefined}
                     label="API Key"

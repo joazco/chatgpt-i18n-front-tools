@@ -1,1 +1,1 @@
-export type FileType = "json" | "yaml";
+export type FileType = "json" | "yaml" | "plaintext";

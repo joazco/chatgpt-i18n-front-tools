@@ -1,22 +1,22 @@
 import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { toJS } from "mobx";
 import { Link } from "react-router-dom";
-import MonacoEditor, { loader } from "@monaco-editor/react";
+import { loader } from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
 import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
 import jsonWorker from "monaco-editor/esm/vs/language/json/json.worker?worker";
 import cssWorker from "monaco-editor/esm/vs/language/css/css.worker?worker";
 import htmlWorker from "monaco-editor/esm/vs/language/html/html.worker?worker";
 import tsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker";
-import { compress, copy2Clipboard, prettierJson } from "./utils";
-import { DocumentDuplicateIcon } from "@heroicons/react/24/outline";
+import { prettierJson } from "./utils";
 
 import { fileTypes, intlLanguages } from "./config";
 import { useNotification } from "../../notify";
 import { useGlobalStore } from "../../store";
 import { FormContext } from "../../store/form";
 import { Background, DropdownModel, DropdownSelect, Header, Spinner, TextField } from "../../components";
-import { rewriteTextService, spellingCorrectionService, translateService } from "../../services";
+import EditorsComponent from "./EditorsComponent";
+import useTextServices from "./useTextServices";
+import CheckboxField from "../../components/checkboxField";
 
 self.MonacoEnvironment = {
     getWorker(_, label) {
@@ -45,18 +45,20 @@ const TextServicePage: React.FC<{ service: "translation" | "spelling-correction"
     const { state, dispatch } = useContext(FormContext);
     const [loading, setLoading] = useState<boolean>(false);
 
-    const { originalContent, targetContent, langFrom, langTo, model, uniqKeyName, transKeyName, fileType, extraPrompt } = state;
+    const { originalContent, langFrom, langTo, model, isClassicI18nValue, uniqKeyName, transKeyName, fileType, extraPrompt } = state;
+    const { translate, spellingCorrection, rewriteText } = useTextServices();
 
     const finalService = useMemo(() => {
         switch (service) {
             case "translation":
-                return translateService;
+                return translate;
             case "spelling-correction":
-                return spellingCorrectionService;
+                return spellingCorrection;
             case "rewrite-text":
-                return rewriteTextService;
+                return rewriteText;
         }
-    }, [service]);
+    }, [service, state]);
+
     const finalBtnText = useMemo(() => {
         switch (service) {
             case "translation":
@@ -72,19 +74,7 @@ const TextServicePage: React.FC<{ service: "translation" | "spelling-correction"
         dispatch({ type: "clearTargetContent" });
         setLoading(true);
         try {
-            const compressedContent = compress(originalContent, fileType);
-            // const data = await translate(compressedContent, lang, fileType, extraPrompt);
-            const data = await finalService({
-                content: compressedContent,
-                baseLang: langFrom,
-                targetLang: langTo,
-                model,
-                uniqKeyNameToTranslate: uniqKeyName,
-                keyNameToTranslate: transKeyName,
-                // fileType,
-                extraPrompt,
-                config: toJS(commonStore.config),
-            });
+            const data = await finalService();
             dispatch({ type: "setTransContent", value: prettierJson(data, fileType) });
         } catch (error) {
             notify(
@@ -155,22 +145,34 @@ const TextServicePage: React.FC<{ service: "translation" | "spelling-correction"
                             {finalBtnText}
                         </button>
                     </div>
-
-                    <div className="mt-2 flex items-center">
-                        <TextField
-                            label="Uniq Key to translate"
-                            placeholder="Key name of uniq key"
-                            value={uniqKeyName}
-                            onChange={(value) => dispatch({ type: "setUniqKeyName", value })}
-                        />
-                        &nbsp;&nbsp;
-                        <TextField
-                            label="Key name to translate"
-                            placeholder="Name of key in your json to be translate"
-                            value={transKeyName}
-                            onChange={(value) => dispatch({ type: "setTransKeyName", value })}
-                        />
-                    </div>
+                    {fileType === "json" && (
+                        <div className="mt-2 flex items-center">
+                            <CheckboxField
+                                label="It's not a traditionnal i18n json file"
+                                onChange={(value) => {
+                                    dispatch({ type: "setIsClassicI18nValue", value: !value });
+                                }}
+                                value={!isClassicI18nValue}
+                            />
+                        </div>
+                    )}
+                    {fileType === "json" && !isClassicI18nValue && (
+                        <div className="mt-2 flex items-center">
+                            <TextField
+                                label="Uniq Key to translate"
+                                placeholder="Key name of uniq key"
+                                value={uniqKeyName}
+                                onChange={(value) => dispatch({ type: "setUniqKeyName", value })}
+                            />
+                            &nbsp;&nbsp;
+                            <TextField
+                                label="Key name to translate"
+                                placeholder="Name of key in your json to be translate"
+                                value={transKeyName}
+                                onChange={(value) => dispatch({ type: "setTransKeyName", value })}
+                            />
+                        </div>
+                    )}
                     <p className="my-2 text-gray-400">Model</p>
                     <div className="dark flex items-center">
                         <DropdownModel
@@ -189,46 +191,7 @@ const TextServicePage: React.FC<{ service: "translation" | "spelling-correction"
                         />
                     </div>
                 </div>
-                <div className="grid grid-cols-2 mt-6">
-                    <div className="shadow-lg border border-gray-700 rounded m-2">
-                        <div className="p-2">Original locale</div>
-                        <MonacoEditor
-                            value={originalContent}
-                            onChange={(value) => dispatch({ type: "setOriginalContent", value })}
-                            height="600px"
-                            language={fileType}
-                            theme="vs-dark"
-                        />
-                    </div>
-                    <div className="shadow-lg border border-gray-700 rounded m-2">
-                        <div className="p-2">
-                            Target locale
-                            <DocumentDuplicateIcon
-                                onClick={() => {
-                                    copy2Clipboard(targetContent);
-                                    notify(
-                                        {
-                                            type: "success",
-                                            title: "copied!",
-                                            message: "copy to clipboard",
-                                        },
-                                        1000
-                                    );
-                                }}
-                                className="float-right w-5 text-white cursor-pointer hover:scale-110"
-                            />
-                        </div>
-                        <MonacoEditor
-                            // onMount={(editor, m) => {
-                            //     resultEditorRef.current = editor;
-                            // }}
-                            value={targetContent}
-                            height="600px"
-                            language={fileType}
-                            theme="vs-dark"
-                        />
-                    </div>
-                </div>
+                <EditorsComponent loading={loading} />
             </div>
         </div>
     );
