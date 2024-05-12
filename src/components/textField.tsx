@@ -4,10 +4,12 @@ interface ITextFieldProps {
     label: string;
     placeholder?: string;
     value?: string;
+    type?: "text" | "number";
+    full?: boolean;
     onChange: (value: string) => void;
 }
 const TextField: FC<ITextFieldProps> = (props) => {
-    const { label, placeholder, value, onChange } = props;
+    const { label, placeholder, value, type = "text", full = true, onChange } = props;
     const id = useId();
     return (
         <div>
@@ -17,9 +19,11 @@ const TextField: FC<ITextFieldProps> = (props) => {
                 </label>
             </div>
             <input
-                type="text"
+                type={type}
                 id={id}
-                className="block w-full rounded-md bg-zinc-900 border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-600 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                className={`block ${
+                    !!full && "w-full"
+                } rounded-md bg-zinc-900 border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-600 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6`}
                 placeholder={placeholder}
                 value={value}
                 onChange={(e) => {

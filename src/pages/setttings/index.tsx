@@ -15,7 +15,7 @@ const Settings: React.FC = (props) => {
             <Header />
             <div className="text-white container mx-auto p-4">
                 <TextField
-                    value={!!config.apiKey && config.apiKey !== "your-key" ? config.apiKey : undefined}
+                    value={!!config.apiKey && config.apiKey !== "" ? config.apiKey : undefined}
                     label="API Key"
                     placeholder={`${config.apiKey}`}
                     onChange={(v) => {

@@ -1,7 +1,8 @@
+import { ChatCompletionMessageParam } from "openai/resources";
 import { IMessage, IUserSetting } from "../interface";
-import { Configuration, OpenAIApi } from "openai";
+// import { Configuration, OpenAIApi } from "openai";
+import OpenAI from "openai";
 
-// console.log(await openai.listModels());
 /**
  * group pairs into two category, pairs need to be translated or not
  * @param pairs
@@ -27,7 +28,7 @@ export function groupPairs(pairs: [string, any][]): {
 
 export interface ICreateChatCompletionProps {
     model: string;
-    messages: IMessage[];
+    messages: ChatCompletionMessageParam[];
 }
 export interface ICreateChatCompletionResponse {
     id: string;
@@ -42,11 +43,12 @@ export interface ICreateChatCompletionResponse {
 }
 
 export async function createChatCompletion(props: ICreateChatCompletionProps, config: IUserSetting, temperature: number = 1) {
-    const configuration = new Configuration({
+    const openai = new OpenAI({
         apiKey: config.apiKey as string,
+        dangerouslyAllowBrowser: true,
     });
-    const openai = new OpenAIApi(configuration);
-    return openai.createChatCompletion({
+
+    return openai.chat.completions.create({
         temperature,
         model: props.model,
         messages: props.messages,

@@ -45,7 +45,7 @@ const TextServicePage: React.FC<{ service: "translation" | "spelling-correction"
     const { state, dispatch } = useContext(FormContext);
     const [loading, setLoading] = useState<boolean>(false);
 
-    const { originalContent, langFrom, langTo, model, isClassicI18nValue, uniqKeyName, transKeyName, fileType, extraPrompt } = state;
+    const { originalContent, langFrom, langTo, model, isClassicI18nValue, uniqKeyName, transKeyName, fileType, extraPrompt, split } = state;
     const { translate, spellingCorrection, rewriteText } = useTextServices();
 
     const finalService = useMemo(() => {
@@ -182,6 +182,18 @@ const TextServicePage: React.FC<{ service: "translation" | "spelling-correction"
                             onSelect={(value) => dispatch({ type: "setModel", value })}
                         />
                     </div>
+                    {fileType === "json" && (
+                        <div className="mt-2">
+                            <TextField
+                                label="Split message"
+                                type="number"
+                                full={false}
+                                value={split?.toString() || "1"}
+                                onChange={(value) => dispatch({ type: "setSplit", value })}
+                            />
+                        </div>
+                    )}
+
                     <div className="mt-2">
                         <TextField
                             label="Customized Prompt (Optional)"

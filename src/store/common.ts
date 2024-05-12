@@ -3,7 +3,7 @@ import { IUserSetting } from "../interface";
 
 export class CommonStore {
     config: IUserSetting = {
-        apiKey: "your-key",
+        apiKey: "",
         serviceProvider: "openai",
     };
     constructor() {

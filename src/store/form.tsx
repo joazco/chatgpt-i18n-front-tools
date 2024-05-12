@@ -12,6 +12,7 @@ export type FormReducerState = {
     transKeyName: string;
     fileType: FileType;
     extraPrompt: string;
+    split: number;
 };
 
 export type FormReducerAction = {
@@ -27,6 +28,7 @@ export type FormReducerAction = {
         | "setFileType"
         | "setTransContent"
         | "setExtraPrompt"
+        | "setSplit"
         | "clearTargetContent";
 
     value?: any;
@@ -43,6 +45,7 @@ export const formReducerState: FormReducerState = {
     transKeyName: "",
     fileType: "json",
     extraPrompt: "",
+    split: 1,
 };
 
 const formReducer = (state: FormReducerState, action: FormReducerAction): FormReducerState => {
@@ -67,6 +70,8 @@ const formReducer = (state: FormReducerState, action: FormReducerAction): FormRe
             return { ...state, fileType: action.value };
         case "setExtraPrompt":
             return { ...state, extraPrompt: action.value };
+        case "setSplit":
+            return { ...state, split: action.value };
         case "setTransContent":
             return { ...state, targetContent: action.value };
         case "clearTargetContent":
