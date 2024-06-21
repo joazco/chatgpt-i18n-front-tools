@@ -1,7 +1,6 @@
 import { useCallback, useContext } from "react";
 
 import { FormContext } from "../../store/form";
-import { IMessage } from "../../interface";
 import { createChatCompletion, matchJSON } from "../../utils";
 import { useGlobalStore } from "../../store";
 import { compress } from "../../pages/textServicePage/utils";
@@ -56,8 +55,8 @@ const useTextServices = () => {
                         const messages: ChatCompletionMessageParam[] = [
                             {
                                 role: "system",
-                                content: `You are a helpful assistant that translates a i18n locale array content. Only translate a i18n locale json content from ${langFrom} to ${langTo}..\n
-                            It's a key:value structure, don't modify the key.\n`,
+                                content: `You are a helpful assistant that translates a i18n locale array content. Only translate a i18n locale json content from ${langFrom} to ${langTo}.\n
+                            It's a key:value structure, don't modify the key. Answer with json content only, don't send me markdown.\n`,
                             },
                         ];
                         if (typeof extraPrompt === "string" && extraPrompt.length > 0) {
@@ -124,7 +123,7 @@ const useTextServices = () => {
             {
                 role: "system",
                 content: `You are a helpful assistant that correct spelling a i18n locale array content. Only correct spelling a i18n locale json content in ${langFrom}.\n
-                It's a key:value structure, don't modify the key.\n`,
+                It's a key:value structure, don't modify the key. Answer with json content only, don't send me markdown.\n`,
             },
         ];
         if (typeof extraPrompt === "string" && extraPrompt.length > 0) {
@@ -174,7 +173,8 @@ const useTextServices = () => {
         const messages: ChatCompletionMessageParam[] = [
             {
                 role: "system",
-                content: `You are a helpful assistant to rephrase to make the text flow better a json i18n locale array content. Only rephrase to make the text flow better a i18n locale json content in ${langFrom}.`,
+                content: `You are a helpful assistant to rephrase to make the text flow better a json i18n locale array content. Only rephrase to make the text flow better a i18n locale json content in ${langFrom}.\n
+                Answer with json content only, don't send me markdown.`,
             },
         ];
         if (typeof extraPrompt === "string" && extraPrompt.length > 0) {
