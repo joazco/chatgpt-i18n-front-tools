@@ -30,6 +30,7 @@ export const intlLanguages: IDropdownSelectOption[] = [
     { value: "Ukrainian", label: "Ukrainian" },
     { value: "Hebrew", label: "Hebrew" },
     { value: "Persian", label: "Persian" },
+    { value: "Brazil", label: "Brazil" },
 ];
 
 export const fileTypes: IDropdownSelectOption[] = [

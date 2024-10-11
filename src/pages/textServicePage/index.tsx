@@ -75,6 +75,7 @@ const TextServicePage: React.FC<{ service: "translation" | "spelling-correction"
         setLoading(true);
         try {
             const data = await finalService();
+            console.log("🚀 ~ requestTranslation ~ data:", data);
             dispatch({ type: "setTransContent", value: prettierJson(data, fileType) });
         } catch (error) {
             notify(
